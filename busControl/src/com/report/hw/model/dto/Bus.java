@@ -1,33 +1,44 @@
 package com.report.hw.model.dto;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class Bus {
-	String startTime; // 출발 시간
-	String endTime; // 도착 예정시간
-	String company; // 운행사
-	String rank;
-	int price; // 요금
-	int totalSeat; // 총 좌석
-	int remainingSeats; // 남은 좌석
+	protected String endTerminal; // 도착지
+	protected String startTime; // 출발시간
+	protected String company; // 운행사
+	protected int price; // 요금
+	protected int totalSeat; // 총 좌석
+	protected int remainingSeats; // 채워진 좌석
+	protected String endTime; // 도착 시간
 	
 	public Bus() {
-		// TODO Auto-generated constructor stub
 	}
 
-	
-
-	public Bus(String startTime, String endTime, String company, String rank, int price, int totalSeat,
-			int remainingSeats) {
+	public Bus(String endTerminal, String startTime, String company, int price, int totalSeat, int remainingSeats,
+			String endTime) {
 		super();
+		this.endTerminal = endTerminal;
 		this.startTime = startTime;
-		this.endTime = endTime;
 		this.company = company;
-		this.rank = rank;
 		this.price = price;
 		this.totalSeat = totalSeat;
 		this.remainingSeats = remainingSeats;
+		setEndTime(endTime);
 	}
 
 
+
+	public String getEndTerminal() {
+		return endTerminal;
+	}
+
+	
+	public void setEndTerminal(String endTerminal) {
+		this.endTerminal = endTerminal;
+	}
 
 	public String getStartTime() {
 		return startTime;
@@ -37,12 +48,12 @@ public class Bus {
 		this.startTime = startTime;
 	}
 
-	public String getEndTime() {
-		return endTime;
+	public String getCompany() {
+		return company;
 	}
 
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
+	public void setCompany(String company) {
+		this.company = company;
 	}
 
 	public int getPrice() {
@@ -68,14 +79,35 @@ public class Bus {
 	public void setRemainingSeats(int remainingSeats) {
 		this.remainingSeats = remainingSeats;
 	}
-
-	@Override
-	public String toString() {
-		return String.format("출발 시각 : %s / ", startTime );
+	
+	// 도착 예정시간 계산
+	@SuppressWarnings("deprecation")
+	public void setEndTime(String time) {
+		
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+		
+		try {
+			Date start = format.parse(startTime);
+			Date end = format.parse(time);
+			Calendar cal = Calendar.getInstance();
+			
+			int hour =  end.getHours();
+			int min =  end.getMinutes();
+			cal.setTime(start);
+			cal.add(Calendar.HOUR_OF_DAY, hour);
+			cal.add(Calendar.MINUTE, min);
+			
+			end = new Date(cal.getTimeInMillis());
+			
+			this.endTime = format.format(end);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	
-	
-	
+	public String getEndTime() {
+		return this.endTime;
+	}
 	
 }
