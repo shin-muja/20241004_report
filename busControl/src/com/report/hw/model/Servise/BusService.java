@@ -39,7 +39,7 @@ public class BusService {
 		busList.add(new ExpressBus("속초", "09:40", "동부고속", 16000, 2, 28, false,"프리미엄", eperssCityEstTime.get("속초")));
 		busList.add(new IntercityBus("부산", "16:30", "경남고속", 54000, 15, 21, "양산 -> 해운대", interCityEstTime.get("부산")));
 		busList.add(new ExpressBus("청주", "13:30", "속리산고속", 15000, 24, 28, false,"우등", eperssCityEstTime.get("청주")));
-		busList.add(new ExpressBus("부산", "22:00", "중앙고속", 40000, 17, 28, true, "우등", eperssCityEstTime.get("부산")));
+		busList.add(new ExpressBus("부산", "22:00", "중앙고속", 41000, 17, 28, true, "우등", eperssCityEstTime.get("부산")));
 		busList.add(new IntercityBus("경주", "14:10", "천마고속", 34000, 25, 28, interCityEstTime.get("경주")));
 		
 		startTimeSort();
@@ -143,21 +143,33 @@ public class BusService {
 			
 			System.out.println("입력된 정보를 확인 후 수정할 정보가 있을시 수정해주세요");
 			
-			if( str.length() == 0 ) {
+			if( str.length() == 0 ) { // 경유지 입력 없을시
 				bus = new IntercityBus(endTerminal, startTime, company, price,
 						totalSeat, remainingSeats, interCityEstTime.get(endTerminal));
 				intercityUpdateBus((IntercityBus)bus);
-			} else {
+			} else { // 입력 있을시
 				bus = new IntercityBus(endTerminal, startTime, company, price,
 						totalSeat, remainingSeats, interCityEstTime.get(endTerminal), str);
+				// 입력된 정보 확인용 메서드 사용 잘못 입력 시 바로 수정
 				intercityUpdateBus((IntercityBus)bus);
 			}
 		} else if (input == 2) {
-			System.out.print("등급을 입력해주세요(우등/프리미엄) : ");
-			String str = sc.nextLine();
+			System.out.println("입력된 정보를 확인 후 수정할 정보가 있을시 수정해주세요");
+			String str;
+			
+			while(true) {
+				System.out.print("등급을 입력해주세요(우등/프리미엄) : ");
+				str = sc.nextLine();
+				if( !str.equals("우등") || !str.equals("프리미엄")) {
+					System.out.println("잘못 입력하셨습니다");
+				} else {
+					break;
+				}
+			}
 			
 			bus = new ExpressBus(endTerminal, startTime, company, price, totalSeat,
 					remainingSeats, flag, str, eperssCityEstTime.get(endTerminal));
+			// 입력된 정보 확인용 메서드 사용 잘못 입력 시 바로 수정
 			expressUpdateBus((ExpressBus)bus);
 			
 		}

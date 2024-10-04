@@ -10,6 +10,7 @@ public class Bus {
 	protected String startTime; // 출발시간
 	protected String company; // 운행사
 	protected int price; // 요금
+	// 좌석은 개선 필요, 어캐 해야할지 감이 안 잡힘...
 	protected int totalSeat; // 총 좌석
 	protected int remainingSeats; // 채워진 좌석
 	protected String endTime; // 도착 시간

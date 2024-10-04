@@ -16,15 +16,17 @@ public class ExpressBus extends Bus {
 		this.nightDrive = nightDrive;
 		this.rank = rank;
 		
-		// 프리미엄 금액 계산식 : 계산식 문제 제대로 내림처림 못함
+		// 프리미엄 금액 계산식, 100원 단위 밑으로는 내림
 		if( rank.equals("프리미엄")) {
-			super.price = (int) (super.price * 1.3) % 1000 != 0 ? (int) (super.price * 1.3)  : (int)(super.price * 1.3) - (int)((super.price * 1.3) / 1000);
+			int x = (int) (super.price * 1.3);
+			super.price = x % 100 == 0 ? x : x - (int)(x % 100);
 		}
 		
 		
-		// 심야 금액 계산 및 표시추가 : 계산식 문제 제대로 내림처림 못함
+		// 심야 금액 계산 및 표시추가, 100원 단위 밑으로는 내림
 		if( nightDrive == true ) {
-			super.price = (int)(super.price * 1.1) % 1000 != 0 ? (int) (super.price * 1.1)  : (int)(super.price * 1.1) - (int)((super.price * 1.1) / 1000);
+			int x = (int)(super.price * 1.1);
+			super.price = x % 100 == 0 ? x  : x - (int)(x % 100);
 			this.rank = "심야" + this.rank;
 		}
 	}
@@ -47,6 +49,7 @@ public class ExpressBus extends Bus {
 
 	@Override
 	public String toString() {
+		// 청소년 어린이 요금....까지 하기에는 console창의 한계로 가독성 떨어짐으로 포기
 		String str = String.format("도착지 : %s / 출발시간 : %s / 도착시간 : %s / 등급 : %s / 운행사 : %s / 요금 : %d원 / 좌석 : %d/%d",
 				endTerminal, startTime,	endTime, rank, company, price, totalSeat, remainingSeats);
 		return str;
