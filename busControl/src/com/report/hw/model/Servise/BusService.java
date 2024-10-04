@@ -173,6 +173,9 @@ public class BusService {
 			expressUpdateBus((ExpressBus)bus);
 			
 		}
+		
+		// 추가 후 정렬
+		startTimeSort();
 		selectTable();
 	}
 	
@@ -383,6 +386,7 @@ public class BusService {
 			System.out.println();
 		}
 	}
+	
 	// 조회용 버스리스트 N
 	public void selectTimeTableN() {
 		for(Bus bus : busList ) {
